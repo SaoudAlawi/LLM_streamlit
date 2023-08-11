@@ -9,13 +9,13 @@ from langchain import HuggingFacePipeline
 from langchain.embeddings import HuggingFaceInstructEmbeddings, HuggingFaceEmbeddings
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
-from constants import *
+from src.constants import *
 from transformers import AutoTokenizer
 import torch
 import os
 import re
 
-class PdfQA:
+class LLMfromPDF:
     def __init__(self,config:dict = {}):
         self.config = config
         self.embedding = None
@@ -130,11 +130,11 @@ class PdfQA:
         elif self.config["embedding"] == EMB_INSTRUCTOR_XL:
             # Local INSTRUCTOR-XL embeddings
             if self.embedding is None:
-                self.embedding = PdfQA.create_instructor_xl()
+                self.embedding = LLMfromPDF.create_instructor_xl()
         elif self.config["embedding"] == EMB_SBERT_MPNET_BASE:
             ## this is for SBERT
             if self.embedding is None:
-                self.embedding = PdfQA.create_sbert_mpnet()
+                self.embedding = LLMfromPDF.create_sbert_mpnet()
         else:
             self.embedding = None ## DuckDb uses sbert embeddings
             # raise ValueError("Invalid config")
@@ -148,25 +148,25 @@ class PdfQA:
             pass
         elif self.config["llm"] == LLM_FLAN_T5_SMALL:
             if self.llm is None:
-                self.llm = PdfQA.create_flan_t5_small(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_flan_t5_small(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FLAN_T5_BASE:
             if self.llm is None:
-                self.llm = PdfQA.create_flan_t5_base(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_flan_t5_base(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FLAN_T5_LARGE:
             if self.llm is None:
-                self.llm = PdfQA.create_flan_t5_large(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_flan_t5_large(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FLAN_T5_XL:
             if self.llm is None:
-                self.llm = PdfQA.create_flan_t5_xl(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_flan_t5_xl(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FLAN_T5_XXL:
             if self.llm is None:
-                self.llm = PdfQA.create_flan_t5_xxl(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_flan_t5_xxl(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FASTCHAT_T5_XL:
             if self.llm is None:
-                self.llm = PdfQA.create_fastchat_t5_xl(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_fastchat_t5_xl(load_in_8bit=load_in_8bit)
         elif self.config["llm"] == LLM_FALCON_SMALL:
             if self.llm is None:
-                self.llm = PdfQA.create_falcon_instruct_small(load_in_8bit=load_in_8bit)
+                self.llm = LLMfromPDF.create_falcon_instruct_small(load_in_8bit=load_in_8bit)
         
         else:
             raise ValueError("Invalid config")        
